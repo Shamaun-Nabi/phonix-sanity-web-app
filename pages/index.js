@@ -1,8 +1,12 @@
 import Head from "next/head";
+import DisplayProducts from "../components/DisplayProducts";
 import Footer from "../components/Footer";
 import HeroSlider from "../components/HeroSlider";
 import SellingProducts from "../components/SellingProducts";
-export default function Home() {
+import { client } from "../lib/client";
+
+
+export default function Home({ products, bannerData }) {
   return (
     <>
       <Head>
@@ -11,10 +15,22 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <HeroSlider />
+      <HeroSlider bannerInfo={bannerData[0]} />
       <SellingProducts />
-      <div className="products-container">product dislplay</div>
-      <Footer/>
+      <DisplayProducts allProducts={products} />
+      <Footer />
     </>
   );
+}
+
+export async function getStaticProps() {
+  const products = await client.fetch(`*[_type == "product"]`);
+  const bannerData = await client.fetch(`*[_type == "banner"]`);
+
+  return {
+    props: {
+      products,
+      bannerData,
+    },
+  };
 }

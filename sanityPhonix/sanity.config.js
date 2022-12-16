@@ -8,7 +8,7 @@ export default defineConfig({
   title: 'phonix',
 
   projectId: 'bcjgjuiw',
-  dataset: 'production',
+  dataset: 'phonixdataset',
 
   plugins: [deskTool(), visionTool()],
 
